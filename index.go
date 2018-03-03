@@ -7,12 +7,13 @@ import (
 
 func main() {
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	r := mux.NewRouter()
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "My first golang")
 	})
-	http.HandleFunc("/user/", user)
-	http.HandleFunc("/product", product)
-	http.ListenAndServe(":8080", nil)
+	r.HandleFunc("/user/", user)
+	r.HandleFunc("/product", product)
+	http.ListenAndServe(":8080", r)
 
 }
 
