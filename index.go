@@ -11,7 +11,7 @@ func main() {
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "My first golang")
 	})
-	r.HandleFunc("/user/", user)
+	r.HandleFunc("/user/{name}", user).Methods("GET")
 	r.HandleFunc("/product", product)
 	http.ListenAndServe(":8080", r)
 
@@ -29,8 +29,9 @@ func user(w http.ResponseWriter, r *http.Request) {
 		"test2": 30,
 	}
 
-	name:=r.URL.Path[len("/user/"):]
-	age:=userDB[name]
+	vars := mux.Vars(r)
+	name := vars["name"]
+	age := userDB[name]
 	fmt.Fprintf(w, "My name is %s %d years old", name, age)
 
 }
