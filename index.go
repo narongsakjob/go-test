@@ -9,7 +9,13 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "My first golang")
+		http.ServeFile(w, r, "index.html")
+	})
+	r.HandleFunc("/signup", func(w http.ResponseWriter, r *http.Request){
+		http.ServeFile(w, r, "signup.html")
+	})
+	r.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request){
+		http.ServeFile(w, r, "login.html")
 	})
 	r.HandleFunc("/user/{name}", user).Methods("GET")
 	r.HandleFunc("/product", product)
