@@ -3,13 +3,20 @@ import (
 	"fmt"
 	"net/http"
 	"github.com/gorilla/mux"
+	"html/template"
 )
 
-func main() {
+type Product struct {
+	Name string
+	Price int
+}
 
+func main() {
+	var templates = template.Must(template.ParseFiles("index.html"))
 	r := mux.NewRouter()
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "index.html")
+		myProduct := Product{"Kanom", 500}
+		templates.ExecuteTemplate(w, "index.html", myProduct)
 	})
 	r.HandleFunc("/signup", func(w http.ResponseWriter, r *http.Request){
 		http.ServeFile(w, r, "signup.html")
