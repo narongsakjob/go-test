@@ -24,12 +24,17 @@ func main() {
 	r.HandleFunc("/login", login)
 	r.HandleFunc("/user/{name}", user).Methods("GET")
 	r.HandleFunc("/product", product)
+	r.HandleFunc("/upload", uploadHandle)
 	http.ListenAndServe(":8080", r)
 
 }
 
+func uploadHandle(w http.ResponseWriter, r *http.Request) {
+	
+}
+
 func product(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Product Request")
+	http.ServeFile(w, r, "upload.html")
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
