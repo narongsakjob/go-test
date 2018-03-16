@@ -30,7 +30,13 @@ func main() {
 }
 
 func uploadHandle(w http.ResponseWriter, r *http.Request) {
-	
+	file, handle, err:=r.FormFile("file") 
+	defer file.Close()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Fprintf(w, "%v", handle.Header)
 }
 
 func product(w http.ResponseWriter, r *http.Request) {
