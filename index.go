@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 	"html/template"
+	"os"
+	"io"
 )
 
 type Product struct {
@@ -37,6 +39,14 @@ func uploadHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintf(w, "%v", handle.Header)
+	f, err := os.OpenFile("./images/"+handle.Filename, os.O_CREATE, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+	io.Copy(f, file)
+	fmt.Fprintf(w, "Upload Complete")
 }
 
 func product(w http.ResponseWriter, r *http.Request) {
